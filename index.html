@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOA Test</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f4f4f4;
+margin:0;
+padding:20px;
+}
+.container{
+max-width:900px;
+margin:auto;
+background:#fff;
+padding:20px;
+border-radius:10px;
+}
+.question{
+margin:20px 0;
+padding:15px;
+border:1px solid #ddd;
+border-radius:8px;
+}
+button{
+background:#0078d4;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:6px;
+cursor:pointer;
+}
+#result{
+margin-top:20px;
+font-size:20px;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>NO'A va Analizator Texniklari Testi</h1>
+
+<input
+id="fullname"
+placeholder="Familiya Ism"
+style="width:100%;padding:10px">
+
+<div id="quiz"></div>
+
+<button onclick="finishTest()">Testni yakunlash</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+q:"Sarf nima, uning asosiy o'lchov birliklari nimalardan iborat?",
+a:[
+"Quvur ichidagi tezlik",
+"Bosim",
+"Zichlik",
+"Ko'ndalang kesimdan vaqt birligida oqib o'tgan modda miqdori"
+],
+correct:3
+},
+
+{
+q:"Bosimlar farqi hisobiga sarf o'lchash elementlari?",
+a:[
+"Orifice, Nozzle, Venturi, Wedge",
+"Venturi va Elektromagnit",
+"Orifice va ultratovushli",
+"Nozzle va Coriolis"
+],
+correct:0
+},
+
+{
+q:"Sath nima?",
+a:[
+"Bosim",
+"Balandlik",
+"Hajm",
+"Harorat"
+],
+correct:1
+}
+
+];
+
+const quiz=document.getElementById("quiz");
+
+questions.forEach((q,index)=>{
+
+let html=`
+<div class="question">
+
+<h3>${index+1}. ${q.q}</h3>
+
+${q.a.map((opt,i)=>`
+<label>
+<input type="radio" name="q${index}" value="${i}">
+${opt}
+</label><br>
+`).join("")}
+
+</div>
+`;
+
+quiz.innerHTML+=html;
+
+});
+
+function finishTest(){
+
+let score=0;
+
+questions.forEach((q,index)=>{
+
+let selected=document.querySelector(
+`input[name=q${index}]:checked`
+);
+
+if(selected &&
+Number(selected.value)===q.correct){
+score++;
+}
+
+});
+
+let percent=Math.round(
+(score/questions.length)*100
+);
+
+document.getElementById("result").innerHTML=
+`
+Natija: ${score}/${questions.length}<br>
+Foiz: ${percent}%
+`;
+
+}
+
+</script>
+
+</body>
+</html>
